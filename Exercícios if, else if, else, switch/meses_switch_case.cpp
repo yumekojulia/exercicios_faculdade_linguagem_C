@@ -76,5 +76,7 @@ int main(int arg, char *argv[])
             printf("Erro: O número do mês informado é inválido.\n");
             break;
     }
+    
+    return 0;
 }
 
