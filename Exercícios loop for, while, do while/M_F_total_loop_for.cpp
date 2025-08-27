@@ -10,9 +10,9 @@ int main(int arg, char *argv[])
      char nome[100], sexo;
      int homens = 0, mulheres = 0;
      
-     printf("Escreva o nome e o sexo (M/F) de 15 pessoas, respectivamente:\n");
+     printf("Escreva o nome e o sexo (M/F) de 10 pessoas, respectivamente:\n");
 	    
-	for(int i = 1; i <= 5; i++) {
+	for(int i = 1; i <= 10; i++) {
 		printf("Digite o nome: ");
         scanf("%s", nome);
         fflush(stdin);
