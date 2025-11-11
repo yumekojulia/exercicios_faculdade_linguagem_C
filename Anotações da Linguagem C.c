@@ -1,0 +1,1259 @@
+Anotações em C 
+
+#include <stdio.h> //biblioteca para ler teclado e mostrar dados do dispositivo no caso PC, standard input/output
+#include <locale.h> // globalização e adaptação de unidades US para global, ex data, pontuação, vírgula
+
+int main(int arg, char *argv[]) //funcao inicio
+{
+	setlocale(LC_ALL, "portuguese-brazilian"); //biblioteca utilizarï¿½
+	           // constante
+	printf("olá¡")
+	
+	return 0; // significa que o programa terminou com êxito, se diferente de 0, é erro
+}
+
+	// REGRAS:
+	//CASE SENSITIVE A != a todos os comandos são em letra minuscula
+	// {} 
+	// ; 99% LINHA DE COMANDO ACABA COM PONTO-VIRGULA 
+	
+#include <stdio.h>
+#include <locale.h>
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "portuguese-brazilian");
+	
+	printf("O valor a pagar é %.2f", valor)
+								// usado para arredondar, mat.arredondar(valor,2) no portugol
+
+	return 0; 
+}
+
+inteiro ---- int %d
+real ------- float %f
+real ------- double (armazena nº maiores) %lf
+lógico ----- bool %d
+caracter --- char %c
+cadeia ----- char[50] %s
+
+int main()
+{
+	int diaN = 0; // evitar lixo de memória caso for perguntar o valor da variável
+	
+	printf("Informe o dia que você nasceu: ");
+	scanf("%d", &diaN);  // & = endereço de memória 
+    fflush(stdin); // esvaziar buffer de teclado
+	
+	printf("Vc nasceu no dia %d.\n", diaN); // escreve o valor que a pessoa digitou
+	printf("Vc nasceu no dia %d.\n", &diaN); // escreve o nº da posição da variável na memória
+	
+	return 0;
+}
+
+#include <stdio.h>
+#include <locale.h>
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "portuguese-brazilian"); // converte o programa todo, data, hora, teclado, etc para a localização desejada
+    // mesma coisa que SetConsoleOutputCP(1252); <- nº de pagina corresponde ao país só dos CARACTERES impressos mas mantem a digitação do usuário padrão EUA
+	
+	char nome[50]; //toda string precisa ter um terminador: \0 que é o null
+	
+	printf("Escreva seu nome: ");
+	scanf("%49[^\n]s", nome); // não precisa da & localização na memoria mas precisa colocar essa fórmula para aparecer toda a string 
+	fflush(stdin);
+	
+	printf("Seu nome é %s ", nome);
+	
+	return 0;
+}
+
+// mediainteira = num1%num2 --> calcular o resto da divisão
+
+pow(x, indice) // power/potenciação
+sqrt(x) // raiz quadrada
+pow(x, 1/indice.0) // demais raizes
+
+#include <stdio.h>
+#include <locale.h>
+#include <math.h> // biblioteca matemática
+
+const float pi = 3.14159265359; // vai fora porque é uma constante global, pode ser utilizada em outras funcões
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "portuguese-brazilian");
+	
+	float V, r;
+	
+	printf("Informe o raio da esfera: ");
+	scanf("%f", &r);
+	fflush(stdin);
+
+	V = (4 * pi * pow(r, 3))/3;
+	
+	printf("O volume da esfera é %.2f\n", V); // %f.2 -> arredonda com base na próxima casa. Ex.: 2,159 = 2,16 
+	
+	return 0;
+}
+
+A regra é simples:
+
+Para um desconto de X%, você usa (1 - X/100). Ex: 9% de desconto -> 1 - 0.09 = 0.91.
+
+Para um acréscimo de X%, você usa (1 + X/100). Ex: 9% de acréscimo -> 1 + 0.09 = 1.09.
+
+// um zero a esquerda não é nada para os inteiros, mas para os decimais um zero à direita
+
+// precedencia de variáveis, hierarquia de pedir para o mais próximo de baixo para cima
+
+somaq = (num1 * num1) + (num2 * num2); // soma dos quadrados 
+somaq = (num1 * num2) + (num1 + num2); // quadrado da soma
+
+
+
+> número inteiro com três dígitos e exibe o número invertido (ex.: o usuário digitou 136, o programa exibirá 631). <
+
+#include <stdio.h>
+#include <locale.h>
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "portuguese-brazilian");
+	
+	int num, c, d, u, aux, inv;
+	
+	printf("Digite um nº inteiro de 3 algarismos: ");
+	scanf("%d", &num);
+	fflush(stdin);
+	
+	c = num / 100;
+	aux = num % 100;
+	d = aux / 10;
+	aux = aux % 10;
+	u = aux / 1;
+    
+    inv = c * 1 + d * 10 + u * 100;
+		
+    printf("Inversão = %d", inv);
+   
+    return 0;
+    
+}
+
+> Terminal de autoatendimento bancário que realiza saques em dinheiro <
+
+#include <stdio.h>
+#include <locale.h>
+#include <math.h>
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "portuguese-brazilian");
+	
+	int valorsaque, ced10, ced5, ced2, ced1, saldo;
+	
+	printf("Informe o valor do saque desejado: ");
+	scanf("%d", &valorsaque);
+	fflush(stdin);
+	
+	ced10 = valorsaque / 10;
+	saldo = valorsaque % 10;
+	ced5 = saldo / 5;
+	saldo = saldo % 5;
+	ced2 = saldo / 2;
+	saldo = saldo % 2;
+	ced1 = saldo;
+		
+    printf(" Cédula(s) de R$10: %d\n Cédula(s) de R$5: %d\n Cédula(s) de R$2: %d\n Cédula(s) de R$1: %d", ced10, ced5, ced2, ced1);
+   
+    return 0;
+    
+}
+
+getch() //comando que espera dar um enter
+if (false) // método de testar código para não executar o bloco | false é representado por 0
+if(senha == "teste123" && (0)) // método de testar código para não executar o bloco
+if(0) // resulta em FALSO
+if(2) // resulta em VERDADEIRO
+if(2-2) // resulta em FALSO
+
+Lógica Booleana:
+
+#include <stdio.h>
+#include <windows.h>
+#include <conio.h>
+int main()
+{
+    SetConsoleOutputCP(1252);
+    system("cls"); //limpa a tela
+    int a,b,c;
+    printf("Digite 3 números para serem comparados: ");
+    scanf("%d%d%d",&a,&b,&c);
+    if(a > b)
+    {
+        if(a > c)
+            printf("a é o maior");
+        else
+            printf("c é o maior");
+    }
+    else
+        if(b > c)
+            printf("b é o maior");
+        else
+            printf("c é o maior");
+    getch();
+}
+
+
+#include <stdio.h>
+#include <conio.h>
+int main()
+{
+    int num;
+    printf("Digite um número: ");
+    scanf("%d",&num);
+    if(num > 0)
+        printf("O número digitado é Positivo");
+    else if(num == 0)
+        printf("O número digitado é Zero");
+    else
+        printf("O número digitado é Negativo");
+    getch();
+}
+
+#include <stdio.h>
+#include <windows.h>
+#include <conio.h>
+#include <locale.h>
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "portuguese-brazilian");
+
+    int a,b,c,escolha;
+
+    while(escolha!=3) // loop
+    {
+        printf("\n 1. Adição");
+        printf("\n 2. Subtração");
+        printf("\n 3. Fim");
+        printf("\n Qual a sua escolha");
+        scanf("%d", &escolha);
+
+        switch(escolha) // "escolha-caso"
+        {
+            case 1:
+                printf("Digite 2 números:");
+                scanf("%d%d",&a,&b);
+                c=a+b;
+                printf("A soma é %d",c);
+                break;
+            case 2:
+                printf("Digite 2 números:");
+                scanf("%d%d",&a,&b);
+                c=a-b;
+                printf("A subtração é %d",c);
+                break;
+            case 3:
+                break;
+            default:
+                printf("Você escolheu um valor inválido");
+                printf("\nPressione qualquer tecla para continuar");
+        }
+    }
+    getch();
+}
+
+case 1...5
+case 'A'...'Z' // de A até Z
+                                          // se falso faz a segunda opção da comparação 
+percaumento = (temposerv > 25) ? 1.20 : 1.15 // INLINE
+                              // se V faz a primeira opção após o inline 
+                              
+ Separar cada unidade de nº:
+ 
+milhar=num/1000
+aux=num%1000
+centena=aux/100
+aux=aux%100
+dezena=aux/10
+unidade=aux%10
+
+#include <stdio.h>
+#include <locale.h>
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "portuguese-brazilian");
+
+    int mes;
+    
+    printf("\nDigite o n° do mês (1 a 12): ");
+    scanf("%d", &mes);
+	printf("\n");
+	
+	switch (mes) {
+        case 1:
+            printf("Mês: Janeiro\n");
+            printf("Dias: 31\n");
+            break; 
+
+        case 2:
+            printf("Mês: Fevereiro\n");
+            printf("Dias: 28 (desconsiderando anos bissextos)\n");
+            break;
+
+        case 3:
+            printf("Mês: Março\n");
+            printf("Dias: 31\n");
+            break;
+
+        case 4:
+            printf("Mês: Abril\n");
+            printf("Dias: 30\n");
+            break;
+
+        case 5:
+            printf("Mês: Maio\n");
+            printf("Dias: 31\n");
+            break;
+
+        case 6:
+            printf("Mês: Junho\n");
+            printf("Dias: 30\n");
+            break;
+
+        case 7:
+            printf("Mês: Julho\n");
+            printf("Dias: 31\n");
+            break;
+
+        case 8:
+            printf("Mês: Agosto\n");
+            printf("Dias: 31\n");
+            break;
+
+        case 9:
+            printf("Mês: Setembro\n");
+            printf("Dias: 30\n");
+            break;
+
+        case 10:
+            printf("Mês: Outubro\n");
+            printf("Dias: 31\n");
+            break;
+
+        case 11:
+            printf("Mês: Novembro\n");
+            printf("Dias: 30\n");
+            break;
+
+        case 12:
+            printf("Mês: Dezembro\n");
+            printf("Dias: 31\n");
+            break;
+            
+        default:
+            printf("Erro: O número do mês informado é inválido.\n");
+            break;
+    }
+}
+
+LOOPS: 
+1) for
+
+int main()
+{
+    for(int i=1; i<=10; i++)
+    {
+    printf("%d ",i);
+    }
+}
+
+2) while
+
+int main()
+{
+    int i;
+    i = 1;
+    while(i <= 10)
+    {
+        printf("%d ",i);
+        i++;
+    }
+}
+
+3) do ... while
+
+int main()
+{
+    int i;
+    i = 1;
+    do
+    {
+        printf("%d ",i);
+        i++;
+    } while(i <= 10);
+}
+
+
+
+#include <stdio.h>
+#include <locale.h>
+#include <ctype.h> // Necessário para a função toupper()
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "portuguese-brazilian");
+     
+     // Escreva um programa que leia o nome e o sexo de 10 pessoas. No final, informe a quantidade total de homens e de mulheres.
+     char nome[100], sexo;
+     int homens = 0, mulheres = 0;
+     
+     printf("Escreva o nome e o sexo (M/F) de 15 pessoas, respectivamente:\n");
+	    
+	for(int i = 1; i <= 5; i++) {
+		printf("Digite o nome: ");
+        scanf("%s", nome);
+        fflush(stdin);
+		printf("Digite o sexo (M para Masculino / F para Feminino): ");
+        scanf(" %c", &sexo);
+        
+		switch (toupper(sexo)) { //conta se a pessoa digitou tanto letra maiúscula quanto minúscula
+            case 'M':
+                homens++;
+                break;
+
+            case 'F':
+                mulheres++; 
+                break;
+
+            default:
+                printf("Opção de sexo inválida! '%c' não será contado(a).\n", sexo);
+                break;
+        }
+    }
+    
+	printf("Total de homens: %d\n", homens);
+    printf("Total de mulheres: %d\n", mulheres);
+	 
+		return 0;
+}
+
+
+#include <stdio.h>
+#include <windows.h>
+#include <conio.h>
+#include <locale.h>
+
+system("cls"); // limpa a tela do usuário
+system("pause"); // aparece "Pressione qualquer tecla para continuar
+
+
+#include <stdio.h>
+#include <locale.h>
+#include <string.h> 
+#include <conio.h>
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "portuguese-brazilian");
+
+	char c, nome[35], municipio[30], pais[50];
+	int i=0;
+	
+	printf("Informe o nome: ");
+	gets(nome); //ler string
+	
+	printf("Informe o município: ");
+	while((c = getch()) != '\n' && i < 29) 
+	{
+		printf("%c",c);
+		municipio[i++]=c;
+	}
+	
+	municipio[i]='\0';
+	
+	printf("Informe o país: ");
+	scanf("%49[^\n]s", &pais);
+	
+	printf("%s\n", nome);
+	puts(municipio);
+	
+		for(i=0; pais[i] != '\0'; i++)
+		putchar(pais[i]);
+		getch();
+	
+	return 0;
+}
+
+Strings em C
+
+
+printf imprime até encontrar o \0 - null // para evitar lixo de memória 
+
+#include <stdio.h>
+#include <locale.h>
+#include <string.h> // biblioteca de string 
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "portuguese-brazilian");
+
+	char personagem[50]; // 50-1 = 49 porque o último será o /0
+	
+	strcpy(personagem, "PATO DONALD"); //atribui uma váriavel a uma string
+	strcpy(personagem, "Mickey"); // substitui e tem a sujeira de memória antes do /0
+    personagem[6] = 'O'; // no indice 6 atribua o caracter 'O'
+    personagem[4] = '\0'; // caracter null
+	personagem[3] = 65; // Coloca a letra A de acordo com a tabela ASCII
+	// pode ser usado para descobrir senhas, trocar coisas na memória
+    printf("%s", personagem+2); // escreve a variável a partir da 2ª casa começando pelo 0    
+    
+	return 0;
+}
+
+letra = 'B'; == letra = 66;
+letra = '\0'; == letra = 0;
+strcpy(variavelstring, "CONTEUDO");
+
+char nome[] = "Nome" // já está inicializando
+
+char nome[16] = {'F','T','E','C',' ','F','a','c','u','l','d','a','d','e','s','\0’};
+char nome[] = {'F','T','E','C',' ','F','a','c','u','l','d','a','d','e','s','\0’};
+char nome[16] = “FTEC Faculdades”; // O compilador C inclui automatic. um \0 no final de uma constante string
+char nome[] = “FTEC Faculdades”;
+char *nome = “FTEC Faculdades”; // inicialização da string usando um ponteiro para caracteres - conteudo do endereço 
+strcpy(nome,”UNIFTEC C.Univ.”);
+
+#include <stdio.h>
+getch() – Lê um caractere a partir de um fluxo da entrada padrão, não usa o buffer – precisa #include <conio.h> // precisa dar ENTER
+getchar() – Lê um caractere a partir de um fluxo da entrada padrão (teclado), usa o buffer
+gets() – Lê uma linha a partir da entrada padrão (teclado) e armazena ela em um vetor de caracteres // fgets(nome, sizeof(nome), stdin);
+scanf() – Lê dados formatados a partir da entrada padrão (teclado)
+getc () – Lê um caractere a partir de um fluxo da entrada, normalmente um arquivo texto
+fscanf() – Lê dados formatados a partir de um dado fluxo de entrada, normalmente um arquivo texto
+puts() – Escreve uma string na saída padrão (monitor) sem o caractere NULL
+printf() – Escreve dados formatados na saída padrão (monitor)
+putchar() – Escreve um caractere na saída padrão (monitor)
+fprintf() – Escreve dados formatados em um fluxo de saída, normalmente um arquivo texto
+
+	printf("Informe o nome: ");
+	gets(nome); //ler string
+
+strcpy() – Copia os caracteres de uma string para outra string
+strcat() – Adiciona uma string ao final de outra string (concatenação)
+strchr() – Retorna um ponteiro para a substring a partir da primeira ocorrência de um caractere dentro da string, ou ‘\0’ (NULL) caso não encontre o caractere na string
+
+#include <stdio.h>
+#include <locale.h>
+#include <string.h> 
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "Portuguese");
+	
+    char nome[50];
+    
+    printf("Digite seu nome: ");
+    fgets(nome, sizeof(nome), stdin); 
+    
+    printf("\nSeu nome é: %s\n", nome);
+
+    
+    return 0;
+}
+
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "Portuguese");
+	
+   	char string[30] = "Bento Gonçalves"; // retorna a quantidade usada de char na string sem contar o NULL
+	char* parcial; // declarar um ponteiro tipo_var*
+	parcial = strchr(municipio, 'G'); // procurar o valor
+	strcpy(municipio, "Pinto Bandeira"); // Passo 2, substitui por outra string
+	printf("%d\n", strlen(parcial)); // Resultará: 8 Bandeira
+	printf("%d\n", strlen(municipio)); // Resultará: 14 Pinto Bandeira
+
+    
+    return 0;
+}
+
+#include <stdio.h>
+#include <locale.h>
+#include <string.h> 
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "Portuguese");
+	
+   	char nome1[30] = "Ana";
+	char nome2[30] = "Pedro";
+	
+	int resultado = strcmp(nome1,nome2);
+	
+	if(strcmp(nome1,nome2)==0) { // 0 = As duas strings são iguais (idênticas caractere a caractere)
+		printf("Os nomes são iguais\n"); 
+	}
+	else if(strcmp(nome1,nome2) == -1); {// -1 : A primeira string é anterior à seguinte (vem antes, se pensarmos na ordem alfabética)
+		printf("%s%s\n", nome1, nome2);
+	}
+	else { // 1: A primeira string é posterior à seguinte (vem depois, se pensarmos na ordem alfabética)              
+		printf("%s%s\n", nome2, nome1);
+	}
+	
+	printf("%d", resultado);
+
+    
+    return 0;
+}
+
+ESCREVER UMA LISTA EM ORDEM SEPARADA
+
+#include <stdio.h>
+#include <locale.h>
+#include <string.h> 
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "Portuguese");
+	
+   	char frutas[50] = "laranja;banana;maçã;pera;bergamota;pêssego";
+	char* parcial;
+	
+	parcial = strtok(frutas,";");
+	
+	if (parcial==NULL)
+		printf("Não encontrado.\n");
+	else
+	{
+		while (parcial != NULL)
+		{
+			printf("%s\n", parcial);
+			parcial = strtok(NULL,";");
+		}
+	}
+    
+    return 0;
+}
+
+#include <stdio.h>
+#include <locale.h>
+#include <string.h> 
+
+int main(int arg, char *argv[])
+{
+	setlocale(LC_ALL, "Portuguese");
+	
+    char nome[51];
+    
+    printf("Digite seu nome: ");
+    fgets(nome, sizeof(nome), stdin); 
+                                     // FORMA CORRETA DE USAR FGETS E TIRAR O ENTER DO TECLADO
+    nome[strlen(nome)-1] = NULL;
+   // STRCSPN(STRING'\n') = NULL;
+    
+    printf("\nSeu nome é: %s\nE o tamanho usado é %d\nE o tamanho total é %d", nome, strlen(nome), sizeof(nome));
+    
+    
+    return 0;
+}
+
+
+Sintaxe	    Leitura	                                    Exemplo: "Olá mundo"
+%s	        Lê apenas uma palavra.	                    Lê só "Olá".
+%[^\n]	    Lê a linha inteira (incluindo espaços).	    Lê "Olá mundo".
+
+A sintaxe "%25[^\n]s" diz para o scanf o seguinte:
+"Leia no máximo 25 caracteres, parando somente quando você encontrar um caractere de nova linha (\n), e armazene o que foi lido na variável p1."
+
+
+#include <stdio.h>
+#include <ctype.h>                                                                                                                    
+#include <locale.h>
+#include <string.h>
+
+int main(int argc, char *argv[])
+{
+	setlocale(LC_ALL, "portuguese-brazilian");
+    char frase[101], stringConsonants[101];
+    int contConsonants = 0;
+
+    printf("Digite uma frase: ");
+    scanf("%100[^\n]s", frase);
+    fflush(stdin);
+
+    for(int p = 0; p < strlen(frase); p++)
+    	if(tolower(frase[p]) != 'a' && tolower(frase[p]) != 'e' && tolower(frase[p]) != 'i' && tolower(frase[p]) != 'o' && tolower(frase[p]) != 'u')
+    	{
+    		stringConsonants[contConsonants] = frase[p];
+    		contConsonants++;
+		}
+		
+	stringConsonants[contConsonants] = NULL;
+	
+	printf("String com apenas consoantes: %s\n", stringConsonants);
+	
+    return 0;
+}
+
+
+    char frase[101];
+
+    printf("Digite uma frase: ");
+    // Lê a linha inteira de forma segura. O fgets inclui o '\n'.
+    fgets(frase, sizeof(frase), stdin);
+    // Remove o '\n' que o fgets adiciona, se ele existir.
+    frase[strcspn(frase, "\n")] = '\0';
+    
+    
+#include <stdio.h>
+#include <locale.h>
+#include <string.h>
+
+char* leNome(char* tipoDado)
+
+{
+	char dado[51];
+
+	printf("%s",tipoDado);
+	scanf("%50[^\n]s",dado);
+	fflush(stdin);
+
+	return strdup(dado);
+
+}
+
+int main(void)
+
+{
+	setlocale(LC_ALL, "portuguese-brazilian");
+	
+	char* nomeAluno;
+	char* naturalidade;
+
+	nomeAluno = leNome("Informe o seu nome: ");
+	naturalidade = leNome("Informe o municipio que você nasceu: ");
+	printf("O seu nome é %s, você é natural de %s.\n",nomeAluno,naturalidade);
+
+}
+
+
+#include <stdio.h>
+#include <locale.h>
+#include <strings.h>	
+#include <conio.h>
+
+int main()
+{
+	setlocale(LC_ALL, "portuguese-brazilian");
+
+	char c,nome[35], municipio[30], pais[50];
+	int i=0;
+
+	printf("Primeira forma de ler uma string - usando gets\n");
+	printf("Informe o nome: ");
+	gets(nome);
+
+	printf("Segunda forma de ler uma string - usando getch\n");
+	printf("Informe o município: ");
+
+	while(i<29)
+	{
+		c = getch();
+		if (c=='\n')
+		   break;
+		printf("%c", c);
+		municipio[i++]=c;
+	}
+
+	municipio[i]='\0';
+	printf("\n");
+	printf("Terceira forma de ler uma string - usando scanf\n");
+	printf("Informe o país: ");
+	scanf("%49[^\n]s", pais);
+	fflush(stdin);
+	printf("Primeira forma de escrever uma string - usando printf\n");
+	printf("%s\n", nome);
+	printf("Segunda forma de escrever uma string - usando puts\n");
+	puts(municipio);
+	printf("Terceira forma de escrever uma string - usando putchar\n");
+
+	for(i=0; pais[i] != '\0'; i++)
+		putch(pais[i]);
+
+	return 0;
+
+
+#include <stdio.h>
+#include <locale.h>
+#include <string.h>
+
+// Definição da Função (UDF): dataExtenso
+void dataExtenso(int dia, int mes, int ano) { // Tipo de Retorno: 'void' (apenas imprime)
+    // Array de strings para os nomes dos meses
+    // O índice 0 é deixado vazio ou usado como erro, pois os meses vão de 1 a 12.
+    char *nomes_meses[] = {
+        "Inválido", // posição 0
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", // posições 1, 2, 3, 4, 5, 6
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" // posições 7, 8, 9, 10, 11 e 12 respectivamente
+    };
+    
+    // Verifica se o mês está em um intervalo válido (1 a 12)
+    if (mes >= 1 && mes <= 12) {
+        // Acessa o array usando o número do mês como índice
+        printf("\nData por Extenso: %d de %s de %d\n", dia, nomes_meses[mes], ano);
+    } else {
+        printf("\nErro: Mês inválido (%d).\n", mes);
+    }
+}
+
+int main() {
+	
+    setlocale(LC_ALL, "portuguese-brazilian"); 
+    
+    int dia, mes, ano;
+
+    // Leitura dos três números
+    printf("Digite o dia: ");
+    scanf("%d", &dia);
+    
+    printf("Digite o mês (1 a 12): ");
+    scanf("%d", &mes);
+    
+    printf("Digite o ano: ");
+    scanf("%d", &ano);
+
+    // Chama a UDF para imprimir a data por extenso
+    dataExtenso(dia, mes, ano);
+
+    return 0;
+}
+
+
+assinatura da função: A 1ª linha de uma função, uma declaração inicial da função sem ter a necessidade dos parâmetros
+
+strdup // só usa para retornar string, cria uma cópia 
+
+bool ehBissexto(int ano)
+{
+    bool anoBissexto = false;
+    if(((ano % 4 == 0 && (ano % 100 != 0) || ano % 400 ==0))
+        anoBissexto = true;
+    return anoBissexto; //retorna a variável
+}
+
+
+
+*variavel // ponteiro e busca o que está dentro do endereço 
+&variavel // endereço do conteudo da variavel
+operacoes(7, 8, &soma, &produto)
+
+void operacoes(int num1, int num2, int* soma, int* produto) // ponteiro para a LOCALIZAÇÃO DA MEMÓRIA, no final da função irá retornar o valor como se fosse o return(variavel)
+{
+    *soma = num1 + num2;
+    *produto = num1 * num2;
+    return;
+}
+// base do hacking de memória, mexer com ponteiros dentro de uma função e interferir na parte de fora da função 
+
+
+#include <stdio.h>
+#include <string.h>  
+#include <locale.h>   
+
+// (30 chars + 1 para o '\0')
+#define TAMANHO_MAX_NOME 31 // ou const int TAMANHO_MAX_NOME = 31; ou enum { TAMANHO_MAX_NOME = 31 };
+
+void lerNome(char nome[]) {
+    
+    printf("Digite o nome da pessoa: ");
+    fgets(nome, TAMANHO_MAX_NOME, stdin);
+    nome[strcspn(nome, "\n")] = '\0';
+    
+}
+
+int main() {
+    setlocale(LC_ALL, "portuguese-brazilian"); 
+    
+    char nome_do_usuario[TAMANHO_MAX_NOME]; 
+
+    lerNome(nome_do_usuario);
+
+    printf("\nO nome lido foi: %s\n", nome_do_usuario);
+
+    return 0;
+}
+
+
+Constantes Numéricas Simples (PI, TAMANHO)  	const (ou enum para arrays)	    Oferece segurança de tipo, o que #define não faz.
+Macros de Função (MULT(a, b))	                #define	                        O único propósito é fazer substituição de código complexa e rápida.
+
+
+RECURSÃO //sempre deve haver um base case (ponto de saída de looping)
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <locale.h>
+
+void escrevePalavra(char*);
+void linhaAst(int);
+void triangAst(int);
+void triangAstc(int, int);
+
+int main()
+{
+    //escrevePalavra("Boa noite");
+    //linhaAst(5);
+    //triangAst(5);
+    triangAstc(1,5);
+    return 0;
+}
+void triangAstc(int qtdAst, int limite) { // para a recursão qyando os valores se igualarem
+    linhaAst(qtdAst);
+    printf("\n");
+    if (qtdAst < limite) {
+        triangAstc(qtdAst + 1, limite);
+    }
+}
+void triangAst(int qtdAst) {
+    linhaAst(qtdAst);
+    printf("\n");
+    if (qtdAst > 1) {
+        triangAst(qtdAst - 1);
+    }
+}
+void escrevePalavra(char* palavra)
+{
+    printf("%s\n", palavra);
+    if (strlen(palavra) > 1) { // fechar o loop
+        escrevePalavra(palavra+1);
+    }
+    return;
+}
+
+void linhaAst(int qtdAst) {
+    printf("*");
+    if (qtdAst > 1)
+        linhaAst(qtdAst - 1);
+}
+
+/home/juh/Desktop/Notes/teste
+Boa noite
+oa noite
+a noite
+ noite
+noite
+oite
+ite
+te
+e
+
+LEMBRAR DE FATORIAIS QUANDO PENSAR EM RECURSÃO
+6! = 6 * 5!
+5! = 5 * 4!
+4! = 4 * 3!
+3! = 3 * 2!
+2! = 2 * 1!
+1! = 1 * 0!
+0! = 1
+
+int fatorial(int 6) {
+	if(n == 0) 
+		return 1;
+	else
+		return n * fatorial(6 - 1);
+
+}
+
+VETORES = ARRAYS // é uma matriz unidimensional 
+
+float notas[30]; // endereço de memória onde terão os 30 valores (0 a 29) - Elementos contíguos (um ao lado do outro)
+printf("%f", notas[0])
+
+
+for(int p = 0; p < 30; p++) { 
+	printf("Informe o %dº aluno: ", p + 1); // imprime 
+	scanf("%f", $notas[p]);
+	printf("%f", notas[p]); // para imprimir todo array
+}
+
+#include <stdio.h>
+#include <math.h>
+#include <locale.h>
+#include <float.h>
+
+#define tam 7 // facilita o limite do laço
+
+int main() {
+    setlocale(LC_ALL, "portuguese-brazilian");
+
+    float notas[tam], media;
+    int p;
+
+    for(int p = 0; p < tam; p++) {
+        printf("Informe o %dº aluno: ", p + 1);
+        scanf("%f", &notas[p]);
+        fflush(stdin);
+    }
+    for(int p = 0; p < tam; p++) {
+        printf("Nota do %dº aluno: %.2f ", p + 1, notas[p]);
+    }
+
+   // media = (notas[0] + notas[1] + notas[2] + notas[3]) / tam;
+
+    printf("\nA média das notas é %.2f", media);
+    return 0;
+}
+
+MATRIZES 
+
+bidimensional = como se fosse uma tabela   // jogos: jogo da velha, sudoku, batalha naval, snake, cubo magico (3d)
+LI/COR - linha/coluna
+ex: x[2][3] = 98
+
+FA/LI/COR - face/linha/coluna
+
+4 dimensões = cubo mágico de cubos magicos 
+
+VELHA
+
+| X|   |   |  0 = null
+|  | O |   |  1 = x 
+|  |   | O |  2 = O 
+
+
+if(VELHA[0],[2] == VELHA[1][1] && VELHA[1][1] == VELHA [2][0])
+
+
+// limpar de cima pra baixo, da esquerda pra direita
+
+	int matriz[3][3];
+
+for(int l = 0; l < 3; l++) {
+	for(int c = 0; c < 3; c++) {
+		matriz[l][c] = 0;
+	}
+}
+
+// leitura da matriz
+
+#include <stdio.h>
+#include <math.h>
+#include <locale.h>
+#include <float.h>
+
+#define linha 3
+#define coluna 3
+
+int main() {
+    setlocale(LC_ALL, "portuguese-brazilian");
+
+    int matriz[linha][coluna];
+
+    for(int l = 0; l < linha; l++) { // loop que limpa a memória da matriz com 0s
+        for(int c = 0; c < coluna; c++) {
+            matriz[l][c] = 0;
+        }
+    }
+    
+    for(int l = 0; l < linha; l++) { // loop que solicita ao user e atribui valores à matriz
+        for(int c = 0; c < coluna; c++) {
+            printf("informe um valor para a posição [%d,%d] da matriz:\n", l, c);
+            scanf("%d", &matriz[l][c]);
+            fflush(stdin);
+        }
+    }
+    
+    for(int l = 0; l < linha; l++) { // loop que imprime a matriz
+        for(int c = 0; c < coluna; c++) {
+            printf("%d ", matriz[l][c]);
+
+        }
+    }
+
+   return 0;
+ }
+
+
+VER SE UM OU MAIS NUMEROS JÁ FOI DIGITADO E QUANTAS VEZES REPETIU
+
+#include <stdio.h>
+#include <math.h>
+#include <locale.h>
+
+#define TAMANHO 10
+
+int main() {
+    setlocale(LC_ALL, "portuguese-brazilian");
+
+    int numeros[TAMANHO];
+    int i, j, contador;
+
+    for (i = 0; i < TAMANHO; i++) {
+        printf("Digite o %dº número: ", i + 1);
+        scanf("%d", &numeros[i]);
+
+        }
+
+    for (i = 0; i < TAMANHO; i++) {
+        if (numeros[i] == -1) {  // Se o elemento foi marcado (alterado para -1), ele já foi contado.
+            continue; // Pula para o próximo elemento
+        }
+
+        contador = 1; // Começa a contagem com 1 (o próprio elemento)
+        
+        for (j = i + 1; j < TAMANHO; j++) {
+            if (numeros[i] == numeros[j]) { // Se o elemento atual (i) for igual ao elemento posterior (j)
+                contador++;
+                numeros[j] = -1;  // Marca o elemento repetido com -1 para que não seja contado novamente
+            }
+        }
+        
+        if (contador > 1) {  // Se o contador for maior que 1, significa que o número é repetido
+            printf("O número %d se repete %d vezes.\n", numeros[i], contador);
+        }
+    }
+    
+    return 0;
+}
+
+MÉTODO BUBBLE SORT COM VALORES DEFINIDOS DO VETOR
+
+#include <stdio.h>
+#include <locale.h>
+
+// Função Bubble Sort
+void bubbleSort(int vetor[], int tamanho) { // Ordena o vetor usando comparações e trocas de pares adjacentes.
+    int i, j, temp;
+    
+    // loop externo para percorre o vetor N-1 vezes
+    for (i = 0; i < tamanho - 1; i++) {
+        
+        // Laço Interno (Comparações):
+        // Percorre o vetor, comparando pares.
+        // Otimização: A cada passagem (i), o último elemento já está ordenado,
+        // então não precisamos ir até o final (tamanho - 1 - i).
+        for (j = 0; j < tamanho - 1 - i; j++) {
+            
+            // Condição de Troca: Se o elemento atual for MAIOR que o próximo, troca
+            if (vetor[j] > vetor[j+1]) {
+                // Troca (Swap) usando uma variável temporária
+                temp = vetor[j];
+                vetor[j] = vetor[j+1];
+                vetor[j+1] = temp;
+            }
+        }
+    }
+}
+
+void imprimirVetor(int vetor[], int tamanho) { // Função Auxiliar para Imprimir o Vetor
+    printf("[");
+    for (int i = 0; i < tamanho; i++) {
+        printf("%d", vetor[i]);
+        if (i < tamanho - 1) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+}
+
+int main() {
+    setlocale(LC_ALL, "portuguese-brazilian");
+    
+    int dados[] = {5, 1, 4, 2, 8, 3, 9};
+    int tamanho = sizeof(dados) / sizeof(dados[0]);
+
+    printf("Vetor Original: ");
+    imprimirVetor(dados, tamanho);
+
+    // Chama a função para ordenar
+    bubbleSort(dados, tamanho);
+
+    printf("Vetor Ordenado (Bubble Sort): ");
+    imprimirVetor(dados, tamanho);
+
+    return 0;
+}
+
+
+METODO BUBBLE SORT VALORES SORTEADOS
+
+#include <stdio.h> // a de sempre >_<
+#include <stdlib.h> // para a função rand() - para sortear números
+#include <time.h> // para a função time() - para que o sorteio seja diferente a cada vez
+#include <locale.h> // para usar em PT-BR/ABNT2
+
+#define TAMANHO 15 // a lista de números terá 15 índices
+#define LIMITE_MAXIMO 15 // números sorteados vão de 1 a 15
+
+//  FUNÇÃO BUBBLE SORT oºOºoº
+void bubbleSort(int vetor[], int tamanho) {
+    int i, j, temp;
+
+    for (i = 0; i < tamanho - 1; i++) { // repete a organização do bubble sort conforme o tamanho definido
+        for (j = 0; j < tamanho - 1 - i; j++) { // COMPARAÇÃO: "tamanho - 1 - i" é para que o loop ignore o que já foi organizado
+            if (vetor[j] > vetor[j+1]) { // O número atual (vetor[j]) é maior que o próximo (vetor[j+1])? Se SIM, trocam de lugar:
+                temp = vetor[j]; //  Guarda o número maior na variável temporária
+                vetor[j] = vetor[j+1]; // Coloca o número menor no lugar do maior
+                vetor[j+1] = temp; // Coloca o número maior no lugar que estava vazio
+            }
+        }
+    }
+}
+
+// FUNÇÃO Imprimir APENAS os Números Distintos
+// obs.: A ordenação é necessária para que a função funcione corretamente
+void imprimirDistintos(const char *nome, int vetor[], int tamanho) {
+    printf("%s: [", nome); // o %s usa a string para o que estará na main "Vetor Final" + ':' :O
+
+    if (tamanho > 0) {
+        printf("%d", vetor[0]); // O 1º número sempre deve ser impresso pois não tem nada antes dele :)
+    }
+
+    for (int i = 1; i < tamanho; i++) { // o loop percorre a lista, começando do SEGUNDO número (i = 1)!!
+        // nesse ponto, a lista já está organizada, então os repetidos estão lado a lado!!!
+        if (vetor[i] != vetor[i-1]) { // Este número (vetor[i]) é diferente do número que veio antes (vetor[i-1])?
+            printf(", %d", vetor[i]); // Se SIM, ele é um número único e deve ser impresso :)
+        }
+    }
+    printf("]\n");
+}
+
+int main() { // FUNÇÃO PRINCIPAL
+    setlocale(LC_ALL, "portuguese-brazilian");
+
+    int vetor[TAMANHO]; // vetor principal com 15 índices vazios
+
+    srand(time(NULL)); // Prepara o sorteador, usando o relógio para garantir que os números sejam novos ;)
+
+    // Sorteio e Preenchimento do Vetor
+    for (int i = 0; i < TAMANHO; i++) { // o loop vai do índice 0 até o 14
+        vetor[i] = (rand() % LIMITE_MAXIMO) + 1; // sorteia um nº de 1 a 15 e guarda no índice 'i' do vetor
+    }
+
+    printf("\tNúmeros Sorteados:\n");
+    for (int i = 0; i < TAMANHO; i++) {
+        printf("%d ", vetor[i]); // Exibe o vetor ANTES da ordenação
+    }
+    printf("\n\n");
+
+    // ORDENAÇÃO
+    bubbleSort(vetor, TAMANHO); // manda a lista para a função de organizar
+    printf("\tApós Bubble Sort:\n");
+    for (int i = 0; i < TAMANHO; i++) { // o loop anda e imprime a lista organizada
+        printf("%d ", vetor[i]);
+    }
+    printf("\n");
+
+    printf("\n\tOrdem crescente dos Nºs Distintos:\n");
+    imprimirDistintos("Vetor Final",vetor, TAMANHO); // imprime somente os nºs distintos
+    // não precisa de marcadores % pois é a chamada da função, ou seja, na função já tem :)
+
+    return 0; // GG! deu tudo certo >.<'
+}
