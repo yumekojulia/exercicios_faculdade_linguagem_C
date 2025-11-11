@@ -4,8 +4,9 @@ Oie!  Esse aqui é o meu primeiro repositório no GitHub e estou super animada p
 
 👾 **O que tem aqui?** 👾 
 - Exercícios da disciplina de **Algoritmos e Programação II**  
-- Arquivos estão com extensão `.cpp` porque eu uso o **Dev-C++** como ambiente.  
-- Mesmo assim, o foco é a **linguagem C** (não C++).  
+- Alguns dos arquivos estão com extensão `.cpp` porque eu estava usando o **Dev-C++** como ambiente, porém passei a usar o **CLion**!! >.<  
+- De qualquer forma, o foco é a **linguagem C** (não C++).
+- Commits meio bagunçados porque eu ainda estou aprendendo.
 
 👾 **Por que criei esse repositório?** 👾  
 - Para treinar e registrar minha evolução em programação.  
