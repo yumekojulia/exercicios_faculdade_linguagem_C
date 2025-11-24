@@ -1791,4 +1791,128 @@ int main() {
 
 
 
+MANIPULAÇÃO DE ARQUIVOS EM C 
 
+// levar dados da memória ram para um local onde não se perdesse eles mesmo com o fechamento do programa
+
+.txt
+arquivos binários 
+
+- operações com arquivos;
+1- Criar um novo arquivo
+2- Abrir um arquivo existente
+2.1- Ler e escrever dados num arquivo
+3- Fechar um arquivo
+Outras operações incluem:
+1- Apagar um arquivo
+2- Renomear um arquivo
+3- Mover um arquivo para outra pasta
+4- Copiar um arquivo para outra pasta ou local
+
+
+Modo (txt) 		Modo (bin) 		Significado 							Comportamento se arquivo não existir
+r 					rb 			Abre para leitura 						Se não existir retorna NULL
+w 					wb 			Abre para escrita 						Se não existir é criado, se existir é sobrescrito
+a 					ab 			Abre para acrescentar (append) 			Se não existir é criado
+r+ 					rb+ 		Abre para leitura e escrita 			Se não existir retorna NULL
+w+ 					wb+ 		Abre para leitura e escrita 			Se não existir é criado, se existir é sobrescrito
+a+ 					ab+ 		Abre para leitura e acréscimo 			Se não existir é criado
+
+
+FILE *arquivoPtr; // precisa criar um ponteiro do tipo file para cada arquivo que desejamos mamipular. 
+// necessário para realizar a comunicação entre o programa e o arquivo
+
+arquivoPtr = fopen(“nomeArquivo.ext”,”modo”); // fopen() - abre um arquivo
+
+FILE *listaAlunosPtr;
+listaAlunosPtr = fopen(“C:\\PastaTeste\\lista.txt”,”w”);
+
+\\ - porque se fosse só uma \ e tivesse um arquivo com 'n', iria dar enter \n 
+
+FILE *arquivoPtr;
+arquivoPtr = fopen(“nomeArquivo.ext”,”modo”); // fclose() - fecha um arquivo 
+fclose(arquivoPtr); // um arquivo .txt ou bin deve ser fechado sempre após realizadas as operações de leitura e/ou escrita
+
+FILE *arquivoPtr;
+arquivoPtr = fopen(“nomeArquivo.ext”,”modo”); // fscanf() e fprintf() - ler e escrever em um arquivo .txt
+fscanf(arquivoPtr, “%...”, &variável);
+fprintf((arquivoPtr, “%...”, variável);
+fclose(arquivoPtr);
+
+
+
+FILE *arqNumerosPtr; // sinalizar o ponteiro para o arquivo
+int numero;
+arqNumerosPtr = fopen(“bingo.txt”,”r”);
+if (arqNumerosPtr != NULL)
+{
+	fscanf(arqNumerosPtr, “%d”, &numero);
+	printf(“O número lido no arquivo é %d”, numero);
+	fclose(arqNumerosPtr); // só fecho se eu conseguir abrir o arquivo, por isso deve estar aqui, "não pode fechar uma porta fechada"
+	// se posto fora das '}' e o arquivo fosse NULL, iria dar erro
+}
+
+
+#include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+    setlocale(LC_ALL, "portuguese-brazilian");
+
+    FILE *arquivo;
+    int numero = 79;
+    arquivo = fopen("bingo.txt","a");
+    if (arquivo != NULL) {
+        fprintf(arquivo, "%d", numero); // gravar no arquivo um n inteiro da variavel
+        printf(“O número lido no arquivo é %d”, numero);
+        fclose(arquivo); // fechar o arquivo
+    }
+}
+
+
+Criar uma lista com nome, nascimento e salario:
+
+#include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+    setlocale(LC_ALL, "portuguese-brazilian");
+
+    FILE *arquivo;
+    char nome[51];        // 50 caracteres + \0
+    char nascimento[11];  // DD/MM/AAAA + \0
+    float salario;
+   
+    do {
+        printf("\nInforme o nome: \n");
+        fgets(nome, 51, stdin);
+        nome[strcspn(nome, "\n")] = '\0';
+        if (strcmp(nome, "sair") == 0 || strcmp(nome, "SAIR") == 0) {
+            break; 
+        }
+        printf("Informe o nascimento (DD/MM/AAAA): \n");
+        fgets(nascimento, 11, stdin);
+        nascimento[strcspn(nascimento, "\n")] = '\0';
+
+        printf("Informe o salario: \n");
+        if (scanf("%f", &salario) != 1) {
+            printf("Entrada de salário inválida. Encerrando.\n");
+            break;
+        } while (getchar() != '\n');
+
+        arquivo = fopen("lista.txt", "a");
+        if (arquivo != NULL) {
+            fprintf(arquivo, "Nome: %s\tNascimento: %s\tSalario: %.2f\n", nome, nascimento, salario);
+            fclose(arquivo);
+        } else {
+            printf("Erro ao abrir o arquivo lista.txt\n");
+        }
+
+    } while (1);
+
+    return 0;
+}
