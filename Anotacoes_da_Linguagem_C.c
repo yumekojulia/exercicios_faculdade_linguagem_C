@@ -1916,3 +1916,301 @@ int main() {
 
     return 0;
 }
+
+
+
+STREAM - é uma abstração para a comunicação de dados. 
+Ao manipular arquivos em C, usamos um stream associado a esse arquivo no sistema operacional.
+
+Para interagir com o arquivo é o ponteiro para a estrutura FILE 
+FILE * -> Armazena informações sobre o stream, como a posição atual e o modo de acesso.
+
+Funções Essenciais:
+Função 		Descrição
+fopen() 	Abre um arquivo, associando-o a um FILE *.
+fclose() 	Fecha o arquivo, liberando o FILE * e garantindo que todos os dados foram escritos.
+feof() 		Verifica se o fim do arquivo (EOF - End Of File) foi atingido.
+ferror() 	Verifica se ocorreu um erro de leitura/escrita.
+
+fprintf() - escreve string  
+fputc() - escreve char
+
+
+#include <locale.h>
+#include <stdio.h>
+
+void escrever_texto() { // fopen que atribui o valor para o fp 
+	FILE *fp = fopen("alunos.txt", "w"); // Abre para escrita (sobrescreve)
+	if (fp == NULL) {					// "a" - acrescenta
+		printf("Erro ao abrir o arquivo!\n");
+		return;
+	}
+	
+	// escreve PRIMEIRO O PONTEIRO e DEPOIS A STRING
+	fprintf(fp, "Nome: João Silva, Idade: 22\n"); // Escreve strings formatadas no arquivo
+	fprintf(fp, "Nome: Maria Souza, Idade: 25\n");
+
+	// escreve PRIMEIRO O CHAR e DEPOIS A STRING
+	char c = 'F';
+	fputc(c, fp); // Escreve o caractere 'F' (de Fim)
+	fputc('\n', fp);
+	fclose(fp);
+	printf("Dados escritos em alunos.txt com sucesso.\n");
+}
+	
+int main() {
+	setlocale(LC_ALL, "portuguese-brazilian");
+
+	escrever_texto();
+}
+
+
+fscanf() - leitura de string
+fgetc() - leitura de char 
+
+
+#include <locale.h>
+#include <stdio.h>
+
+#include <stdio.h>
+void ler_texto() {
+	FILE *fp = fopen("alunos.txt", "r"); // Abre para leitura
+	if (fp == NULL) {
+		printf("Arquivo não encontrado ou erro na abertura!\n");
+		return;
+	}
+	char linha[100];
+	/* Leitura caractere por caractere até o final do arquivo (EOF)
+	printf("Conteúdo do arquivo:\n");
+	int c; // pode colocar char c; -> relação com a lógica da tabela ASCII
+	while ((c = fgetc(fp)) != EOF) { // lê 1 char do .txt até o último char ctl z = 26 e atribui ao char c
+		putchar(c); // Exibe o caractere na tela
+	} */
+	// OU, para leitura formatada (como scanf):
+	
+	char nome[50];
+	int idade;
+	// Tenta ler até que a formatação não seja mais satisfeita (EOF), lê linha por linha
+	while (fscanf(fp, "Nome: %[^,], Idade: %d\n", nome, &idade) == 2) { // lê até encontrar uma vírgula. iguala a 2 porque são duas variáveis
+	printf("Lido -> Nome: %s, Idade: %d\n", nome, idade);
+	} // não lê o 'F' pois 'F' = 1
+
+	fclose(fp);
+}
+	
+int main() {
+	setlocale(LC_ALL, "portuguese-brazilian");
+
+	ler_texto();
+}
+
+
+
+#include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+    setlocale(LC_ALL, "portuguese-brazilian");
+
+    char frase1[101];
+    char frase2[101];
+    FILE *arq;
+
+    printf("Digite a primeira frase: \n");
+    fgets(frase1, 101, stdin);
+    frase1[strcspn(frase1,"\n")] = '\0';
+    fflush(stdin);
+
+    arq = fopen("frase.txt", "w");
+    if (arq == NULL) {
+        printf("Erro ao abrir arquivo frase.txt");
+        return 0;
+    }
+    fprintf(arq, frase1);
+    fputc('\n', arq);
+    fclose(arq);
+
+    printf("Digite a segunda frase: \n");
+    fgets(frase2, 101, stdin);
+    frase2[strcspn(frase2,"\n")] = '\0';
+    fflush(stdin);
+
+    arq = fopen("frase.txt", "a");
+    if (arq == NULL) {
+        printf("Erro ao abrir arquivo frase.txt");
+        return 0;
+    }
+    fprintf(arq, frase2);
+    fclose(arq);
+
+    arq = fopen("frase.txt", "r");
+    char c;
+    while ((c = fgetc(arq))!= EOF)
+        putchar(c);
+    fclose(arq);
+    return 0;
+}
+
+
+
+FUNÇÕES DE LEITURA E ESCRITA DE ARQUIVOS BINÁRIOS 
+
+fread() - leitura
+fwrite() - escrita 
+
+utiliza blocos de bytes (memória)
+
+size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
+
+size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
+
+- ptr: Ponteiro para os dados na memória.
+- size: Tamanho de um item em bytes (geralmente sizeof(struct)).
+- nmemb: Número de itens a serem lidos/escritos.
+- stream: O ponteiro de arquivo (FILE *).
+
+
+#include <stdio.h>
+#include <stdlib.h> // Para exit()
+// Estrutura que será salva no arquivo binário
+typedef struct {
+    int id;
+    char nome[30];
+    float nota;
+} RegistroAluno;
+void salvar_binario(RegistroAluno a) {
+    FILE *fp = fopen("registros.bin", "wb");  // Modo "wb" (write binary)
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo");
+        exit(EXIT_FAILURE);
+    }
+    // Escreve 1 elemento do tamanho de RegistroAluno, a partir do endereço &a
+    size_t escritos = fwrite(&a, sizeof(RegistroAluno), 1, fp); // sizeof(registro alunos) = 40 bites
+    if (escritos != 1) {
+        printf("Erro na escrita binária!\n");
+    } else {
+        printf("Registro do aluno ID %d salvo em registros.bin.\n", a.id);
+    }
+    fclose(fp);
+}
+void carregar_binario() {
+    RegistroAluno a_lido;
+    FILE *fp = fopen("registros.bin", "rb"); // Modo "rb" (read binary)
+    if (fp == NULL) {
+        printf("Arquivo binário não encontrado!\n");
+        return;
+    }
+    // Tenta ler 1 elemento do tamanho de RegistroAluno, para o endereço &a_lido
+    size_t lidos = fread(&a_lido, sizeof(RegistroAluno), 1, fp);
+    if (lidos == 1) {
+        printf("\nRegistro lido:\n");
+        printf("ID: %d\n", a_lido.id);
+        printf("Nome: %s\n", a_lido.nome);
+        printf("Nota: %.2f\n", a_lido.nota);
+    } else {
+        printf("Erro na leitura binária ou arquivo vazio.\n");
+    }
+    fclose(fp);
+}
+int main() {
+    RegistroAluno aluno1 = {101, "Carlos Mendes", 8.5};
+    printf("%d\n", sizeof(RegistroAluno)); // quantos bites preciso para armazenar na memoria, todos os blocos são iguais
+    salvar_binario(aluno1);
+    carregar_binario();
+    return 0;
+}
+
+
+
+acessar dados em posições específicas em .bin: 
+
+ftell(fp): Retorna a posição atual do ponteiro de arquivo (em bytes) a partir do início.
+fseek(fp, offset, origin): Move o ponteiro de arquivo.
+- offset: Número de bytes a mover.
+- origin: Ponto de referência: SEEK_SET (início), SEEK_CUR (atual), SEEK_END(fim).
+rewind(fp): Move o ponteiro para o início do arquivo (fseek(fp, 0, SEEK_SET)).
+
+Para ler o N-ésimo registro em um arquivo binário de estruturas:
+// Supondo que 'fp' está aberto em modo "rb"
+int indice_registro = 2; // Queremos o 3º registro (índice 2)
+long deslocamento = indice_registro * sizeof(RegistroAluno);
+// Move o ponteiro: deslocamento a partir do início (SEEK_SET)
+fseek(fp, deslocamento, SEEK_SET);
+// Lê o registro na nova posição
+fread(&a_lido, sizeof(RegistroAluno), 1, fp); 
+
+
+// código para escrever mais registros de alunos
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <locale.h>
+
+// Estrutura que será salva no arquivo binário
+typedef struct {
+    int id;
+    char nome[30];
+    float nota;
+} RegistroAluno;
+
+void salvarArray_binario(RegistroAluno a[]) {
+    FILE *fp = fopen("lista.bin", "wb");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo");
+        exit(EXIT_FAILURE);
+    }
+    size_t escritos = fwrite(a, sizeof(RegistroAluno), 3, fp);
+    if (escritos != 3) {
+        printf("Erro na escrita bin�ria!\n");
+    } else {
+        printf("Registro dos 3 alunos salvo em lista.bin.\n");
+    }
+    fclose(fp);
+}
+
+void carregarArray_binario() {
+    RegistroAluno a_lido[3];
+    FILE *fp = fopen("lista.bin", "rb");
+    if (fp == NULL) {
+        printf("Arquivo binário não encontrado!\n");
+        return;
+    }
+    size_t lidos = fread(a_lido, sizeof(RegistroAluno), 3, fp);
+    if (lidos == 3) {
+        for (int a=0;a<lidos;a++)
+        {
+            printf("\n%d registro lido:\n",a+1);
+            printf("ID: %d\n", a_lido[a].id);
+            printf("Nome: %s\n", a_lido[a].nome);
+            printf("Nota: %.2f\n", a_lido[a].nota);
+        }
+    } else {
+        printf("Erro na leitura binária ou arquivo vazio.\n");
+    }
+    fclose(fp);
+}
+
+int main(int argc, char *argv[])
+{
+    setlocale(LC_ALL, "portuguese-brazilian");
+    RegistroAluno alunos[3];
+
+    alunos[0].id=109;
+    strcpy(alunos[0].nome,"Joana das Orquideas");
+    alunos[0].nota=7.8;
+
+    alunos[1].id=114;
+    strcpy(alunos[1].nome,"Pedro das Roseiras");
+    alunos[1].nota=7.0;
+
+    alunos[2].id=115;
+    strcpy(alunos[2].nome,"Kelly das Violetas");
+    alunos[2].nota=8.3;
+
+    salvarArray_binario(alunos);
+    carregarArray_binario();
+
+    return 0;
+}
